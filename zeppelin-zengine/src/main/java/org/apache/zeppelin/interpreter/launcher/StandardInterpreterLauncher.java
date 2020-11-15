@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -80,7 +81,7 @@ public class StandardInterpreterLauncher extends InterpreterLauncher {
   }
 
   public Map<String, String> buildEnvFromProperties(InterpreterLaunchContext context) throws IOException {
-    Map<String, String> env = EnvironmentUtils.getProcEnvironment();
+    Map<String, String> env = new HashMap<>();
     for (Map.Entry<Object,Object> entry : context.getProperties().entrySet()) {
       String key = (String) entry.getKey();
       String value = (String) entry.getValue();

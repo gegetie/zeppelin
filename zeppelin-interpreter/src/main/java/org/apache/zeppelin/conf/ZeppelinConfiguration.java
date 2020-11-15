@@ -610,7 +610,11 @@ public class ZeppelinConfiguration extends XMLConfiguration {
   }
 
   public String getInterpreterRemoteRunnerPath() {
-    return getAbsoluteDir(ConfVars.ZEPPELIN_INTERPRETER_REMOTE_RUNNER);
+    if (getString(ConfVars.ZEPPELIN_INTERPRETER_REMOTE_RUNNER).startsWith("ssh")) {
+      return getString(ConfVars.ZEPPELIN_INTERPRETER_REMOTE_RUNNER);
+    } else {
+      return getAbsoluteDir(ConfVars.ZEPPELIN_INTERPRETER_REMOTE_RUNNER);
+    }
   }
 
   public String getInterpreterLocalRepoPath() {
