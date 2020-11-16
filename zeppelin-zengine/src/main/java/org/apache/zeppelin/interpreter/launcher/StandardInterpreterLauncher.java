@@ -76,7 +76,7 @@ public class StandardInterpreterLauncher extends InterpreterLauncher {
           context.getIntpEventServerPort(), context.getIntpEventServerHost(), zConf.getInterpreterPortRange(),
           zConf.getInterpreterDir() + "/" + groupName, localRepoPath,
           buildEnvFromProperties(context), connectTimeout, connectionPoolSize, name,
-          context.getInterpreterGroupId(), option.isUserImpersonate());
+          context.getInterpreterGroupId(), option.isUserImpersonate(), context.getClusterId());
     }
   }
 

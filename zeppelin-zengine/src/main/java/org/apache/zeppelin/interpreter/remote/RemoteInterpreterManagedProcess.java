@@ -51,6 +51,7 @@ public class RemoteInterpreterManagedProcess extends RemoteInterpreterProcess {
   private final String interpreterGroupId;
   private final boolean isUserImpersonated;
   private String errorMessage;
+  private String clusterId;
 
   private Map<String, String> env;
 
@@ -66,7 +67,8 @@ public class RemoteInterpreterManagedProcess extends RemoteInterpreterProcess {
       int connectionPoolSize,
       String interpreterSettingName,
       String interpreterGroupId,
-      boolean isUserImpersonated) {
+      boolean isUserImpersonated,
+      String clusterId) {
     super(connectTimeout, connectionPoolSize, intpEventServerHost, intpEventServerPort);
     this.interpreterRunner = intpRunner;
     this.interpreterPortRange = interpreterPortRange;
@@ -76,6 +78,7 @@ public class RemoteInterpreterManagedProcess extends RemoteInterpreterProcess {
     this.interpreterSettingName = interpreterSettingName;
     this.interpreterGroupId = interpreterGroupId;
     this.isUserImpersonated = isUserImpersonated;
+    this.clusterId = clusterId;
   }
 
   private CommandLine buildCommandLine(String userName) {
@@ -104,7 +107,11 @@ public class RemoteInterpreterManagedProcess extends RemoteInterpreterProcess {
     builder.append(interpreterSettingName);
 
     CommandLine cmdLine = CommandLine.parse("ssh");
-    cmdLine.addArgument(env.getOrDefault("REMOTE_HOST", "emr-header-1.cluster-46209"));
+    if (clusterId.equalsIgnoreCase("localhost")) {
+      cmdLine.addArgument(env.getOrDefault("REMOTE_HOST", "localhost"));
+    } else {
+      cmdLine.addArgument(env.getOrDefault("REMOTE_HOST", "emr-header-1." + clusterId));
+    }
     cmdLine.addArgument(builder.toString(), false);
     return cmdLine;
   }

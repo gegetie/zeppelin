@@ -821,6 +821,7 @@ public class Note implements JsonSerializable {
           ExecutionContext executionContext = new ExecutionContextBuilder()
                   .setUser(authInfo.getUser())
                   .setNoteId(id)
+                  .setClusterId(getClusterId())
                   .setDefaultInterpreterGroup(defaultInterpreterGroup)
                   .setInIsolatedMode(isolated)
                   .setStartTime(getStartTime())
@@ -902,6 +903,10 @@ public class Note implements JsonSerializable {
     return p.completion(buffer, cursor);
   }
 
+  public String getClusterId() {
+    return (String) config.get("clusterId");
+  }
+
   public List<Paragraph> getParagraphs() {
     return new ArrayList<>(this.paragraphs);
   }
@@ -916,7 +921,7 @@ public class Note implements JsonSerializable {
     }
 
     for (InterpreterSetting setting : settings) {
-      InterpreterGroup intpGroup = setting.getInterpreterGroup(new ExecutionContextBuilder().setUser(user).setNoteId(id).createExecutionContext());
+      InterpreterGroup intpGroup = setting.getInterpreterGroup(new ExecutionContextBuilder().setUser(user).setNoteId(id).setClusterId(getClusterId()).createExecutionContext());
       if (intpGroup != null) {
         AngularObjectRegistry registry = intpGroup.getAngularObjectRegistry();
         angularObjects.put(intpGroup.getId(), registry.getAllWithGlobal(id));
@@ -933,10 +938,10 @@ public class Note implements JsonSerializable {
     }
 
     for (InterpreterSetting setting : settings) {
-      if (setting.getInterpreterGroup(new ExecutionContextBuilder().setUser(user).setNoteId(id).createExecutionContext()) == null) {
+      if (setting.getInterpreterGroup(new ExecutionContextBuilder().setUser(user).setNoteId(id).setClusterId(getClusterId()).createExecutionContext()) == null) {
         continue;
       }
-      InterpreterGroup intpGroup = setting.getInterpreterGroup(new ExecutionContextBuilder().setUser(user).setNoteId(id).createExecutionContext());
+      InterpreterGroup intpGroup = setting.getInterpreterGroup(new ExecutionContextBuilder().setUser(user).setNoteId(id).setClusterId(getClusterId()).createExecutionContext());
       AngularObjectRegistry registry = intpGroup.getAngularObjectRegistry();
 
       if (registry instanceof RemoteAngularObjectRegistry) {
