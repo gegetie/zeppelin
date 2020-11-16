@@ -321,6 +321,10 @@ public class ZeppelinConfiguration extends XMLConfiguration {
     return getString(ConfVars.ZEPPELIN_HOME);
   }
 
+  public String getZeppelinRemoteHome() {
+    return getString(ConfVars.ZEPPELIN_REMOTE_HOME);
+  }
+
   public boolean useSsl() {
     return getBoolean(ConfVars.ZEPPELIN_SSL);
   }
@@ -942,6 +946,7 @@ public class ZeppelinConfiguration extends XMLConfiguration {
    */
   public enum ConfVars {
     ZEPPELIN_HOME("zeppelin.home", "./"),
+    ZEPPELIN_REMOTE_HOME("zeppelin.remote.home", "/usr/lib/flow-agent/zeppelin"),
     ZEPPELIN_ADDR("zeppelin.server.addr", "127.0.0.1"),
     ZEPPELIN_PORT("zeppelin.server.port", 8080),
     ZEPPELIN_SERVER_CONTEXT_PATH("zeppelin.server.context.path", "/"),

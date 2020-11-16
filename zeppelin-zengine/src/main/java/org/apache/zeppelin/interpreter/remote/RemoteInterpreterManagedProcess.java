@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.hadoop.yarn.util.ConverterUtils;
+import org.apache.zeppelin.conf.ZeppelinConfiguration;
 import org.apache.zeppelin.interpreter.YarnAppMonitor;
 import org.apache.zeppelin.interpreter.util.ProcessLauncher;
 import org.slf4j.Logger;
@@ -86,7 +87,7 @@ public class RemoteInterpreterManagedProcess extends RemoteInterpreterProcess {
     for (Map.Entry<String, String> entry : env.entrySet()) {
       builder.append("export " + entry.getKey() + "=\"" + entry.getValue() + "\" && ");
     }
-    builder.append("/home/hadoop/zeppelin/bin/interpreter.sh");
+    builder.append(ZeppelinConfiguration.create().getZeppelinRemoteHome() + "/bin/interpreter.sh");
     builder.append(" -d ");
     builder.append(interpreterDir);
     builder.append(" -c ");
